@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { StatusBar, AsyncStorage } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
-
+import api from '../services/api'
 
 
 import {
@@ -18,6 +18,10 @@ import {
 } from '../styles';
 
 export default class SignIn extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {email: '', senha: '', error: '' };
+  }
   render() {
     return (
       <Container>
@@ -25,13 +29,17 @@ export default class SignIn extends Component {
         <Logo source={require('../../images/logo.png')} resizeMode="contain" />
         <Input
           placeholder="Endereço de e-mail"
-          
+          value={this.state.email}
+          onChangeText={this.handleEmailChange}
         />
         <Input
           placeholder="Senha"
-          
+          value={this.state.senha}
+          onChangeText={this.handlePasswordChange}
         />
-        <Button>
+        <Button onPress={() => {
+							this.handleSignInPress();
+						}}>
           <ButtonText>Entrar</ButtonText>
         </Button>
         <SignUpLink>
@@ -40,4 +48,42 @@ export default class SignIn extends Component {
       </Container>
     );
   }
+
+  handleEmailChange = (email) => {
+  this.setState({ email });
+};
+
+handlePasswordChange = (senha) => {
+  this.setState({ senha });
+};
+
+handleCreateAccountPress = () => {
+  this.props.navigation.navigate('SignUp');
+};
+
+  handleSignInPress = async () => {
+    if (this.state.email.length === 0 || this.state.senha.length === 0) {
+      this.setState({ error: 'Preencha usuário e senha para continuar!' }, () => false);
+    } else {
+     try{
+      const response = await api.post('/login', {
+        Email: this.state.email,
+        Senha: this.state.senha
+      });
+        
+      await AsyncStorage.setItem('@diaristApp:token', response.data.dados);
+
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Main' }),
+        ],
+      });
+      this.props.navigation.dispatch(resetAction);  
+     } 
+    
+  };
+}
+
+
 }

@@ -28,7 +28,6 @@ export default class Main extends Component {
 	render(){
 		return(
 			<View style={styles.container}>
-				
 				<View style={styles.mainContainer}>
 					<Text style={styles.mainTitle} >Dev GUI</Text>
 					<Text style={styles.mainDescription} >Functions</Text>
@@ -65,7 +64,7 @@ export default class Main extends Component {
 						}}
 					>
 						<Text style={styles.mainButtonText}>
-							SignIn
+							Login
 						</Text>
 					</TouchableOpacity>
 				</View>
@@ -113,7 +112,7 @@ const styles =  StyleSheet.create({
 		backgroundColor: "#8C72E1",
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginTop: 15,
+		marginTop: 8,
 		marginLeft: 40,
     	marginRight: 40
 	},

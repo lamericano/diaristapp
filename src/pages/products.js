@@ -40,7 +40,7 @@ export default class Products extends Component {
 				}}
 			>
 				<Text style={styles.productButtonText}>
-					Comprar
+					Agendar
 				</Text>
 			</TouchableOpacity>
 		</View>

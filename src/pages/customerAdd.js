@@ -218,9 +218,7 @@ const style =  StyleSheet.create({
   input:{
     fontSize: 12,
     color: "#555",
-    borderColor: "#8C72E1",
     backgroundColor: "#FFF",
-    borderWidth: 1,
     borderRadius: 20
 
   },
@@ -235,7 +233,6 @@ const style =  StyleSheet.create({
   button:{
     borderColor: "#000",
     backgroundColor: "#8C72E1",
-    borderWidth: 2,
     borderRadius: 9,
     height: 38
   },
