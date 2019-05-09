@@ -65,7 +65,6 @@ handleCreateAccountPress = () => {
     if (this.state.email.length === 0 || this.state.senha.length === 0) {
       this.setState({ error: 'Preencha usuário e senha para continuar!' }, () => false);
     } else {
-     try{
       const response = await api.post('/login', {
         Email: this.state.email,
         Senha: this.state.senha
@@ -79,9 +78,7 @@ handleCreateAccountPress = () => {
           NavigationActions.navigate({ routeName: 'Main' }),
         ],
       });
-      this.props.navigation.dispatch(resetAction);  
-     } 
-    
+      /* this.props.navigation.dispatch(resetAction);  */   
   };
 }
 
