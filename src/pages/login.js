@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { StatusBar, AsyncStorage } from 'react-native';
+import { StatusBar, Alert } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import api from '../services/api'
 
@@ -68,17 +68,28 @@ handleCreateAccountPress = () => {
       const response = await api.post('/login', {
         Email: this.state.email,
         Senha: this.state.senha
-      });
         
-      await AsyncStorage.setItem('@diaristApp:token', response.data.dados);
+      }).then(function (response) {
+        if ( response.data.sucesso = true ){
+          Alert.alert('PATRÃO TU TA LOGADO ESSE MOMENTO:', response.headers.date)
+      }
+        else{}
+        console.log(response);
+      })
+      .catch(function (err) {
+        console.log(error);
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: 'Login' }),
+          ],
+        });
+        this.props.navigation.dispatch(resetAction);
+      });;
+        
 
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'Main' }),
-        ],
-      });
-      /* this.props.navigation.dispatch(resetAction);  */   
+
+         
   };
 }
 
