@@ -8,7 +8,7 @@ const Container = styled.View`
 `;
 
 const Logo = styled.Image`
-  height: 30%;
+  height: 23%;
   marginBottom: 20px;
   borderRadius: 10px;
 `;
