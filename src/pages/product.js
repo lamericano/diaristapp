@@ -24,22 +24,23 @@ export default class Product extends Component {
   }
 
   loadProduct = async () => {
-    const response = await api.get("/Product");
-    const { docs } = response.data;
+    const response = await api.get("/BuscaDiarista/PorCidade?cidade=São Paulo");
+    const { docs } = response.data.dados;
     this.setState({ docs });
+    console.log(response);
   };
 
   renderItem = ({ item }) => (
     <View style={styles.productContainer}>
-      <Text style={styles.productTitle}>{item.title}</Text>
-      <Text style={styles.productDescription}>{item.description}</Text>
+      <Text style={styles.productTitle}>{item.nome}</Text>
+      <Text style={styles.productDescription}>{item.telefone}</Text>
       <TouchableOpacity
         style={styles.productButton}
         onPress={() => {
           this.props.navigation.navigate("Product");
         }}
       >
-        <Text style={styles.productButtonText}>Comprar</Text>
+        <Text style={styles.productButtonText}>Agendar</Text>
       </TouchableOpacity>
     </View>
   );

@@ -84,14 +84,14 @@ export default class SignIn extends Component {
               response.data.dados.contratante.nome
             ); 
             console.log(response);
-            () => {this.props.navigation.navigate("Home");}
+
           } else {
             console.log('caiu no else da response');
           }
           
         })
         .catch(function(err) {
-          console.log('error');
+          console.log(this.setState({ error }));
           const resetAction = StackActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({ routeName: "Login" })]
