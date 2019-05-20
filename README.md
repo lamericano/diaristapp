@@ -10,5 +10,6 @@ yarn add pubsub-js<br/>
 yarn add react-native-gesture-handler<br/>
 yarn add react-native-progress-steps<br/>
 yarn add @react-native-community/async-storage<br/>
+yarn add styled-components<br/>
 react-native link react-native-gesture-handler<br/>
 react-native link @react-native-community/async-storage
