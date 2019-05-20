@@ -2,21 +2,21 @@ import styled from 'styled-components';
 
 const Container = styled.View`
   flex: 1;
-  alignItems: center;
-  justifyContent: center;
-  backgroundColor: #F5F5F5;
+  
+  backgroundColor: #8C72E1;
 `;
 
 const Logo = styled.Image`
-  height: 23%;
+  height: 20%;
   marginBottom: 20px;
+  marginTop: 10%;
   borderRadius: 10px;
 `;
 
 const Input = styled.TextInput`
   paddingHorizontal: 20px;
   paddingVertical: 15px;
-  borderRadius: 5px;
+  borderRadius: 8px;
   backgroundColor: #FFF;
   alignSelf: stretch;
   marginBottom: 15px;
@@ -34,8 +34,8 @@ const ErrorMessage = styled.Text`
 
 const Button = styled.TouchableHighlight`
   padding: 20px;
-  borderRadius: 5px;
-  backgroundColor: #8C72E1;
+  borderRadius: 8px;
+  backgroundColor: #AF9BF3;
   alignSelf: stretch;
   margin: 15px;
   marginHorizontal: 8px;
@@ -54,7 +54,7 @@ const SignUpLink = styled.TouchableHighlight`
 `;
 
 const SignUpLinkText = styled.Text`
-  color: #999;
+  color: #FFF;
   fontWeight: bold;
   fontSize: 16px;
   textAlign: center;

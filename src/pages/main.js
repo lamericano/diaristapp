@@ -5,7 +5,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { Text } from "native-base";
-
+import { isSignedIn } from "../services/auth";
 export default class Main extends Component {
   static navigationOptions = {
     title: "diaristApp",
@@ -18,7 +18,17 @@ export default class Main extends Component {
       color: "#FFF"
     }
   };
-
+  _retrieveData = async () => {
+    try {
+      const value = AsyncStorage.getItem('@diaristApp:token');
+      if (value !== null) {
+        // We have data!!
+        Alert.alert(value);
+      }
+    } catch (error) {
+      console.log('Deu erro nesse token em patrão');
+    }
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -28,7 +38,8 @@ export default class Main extends Component {
           <TouchableOpacity
             style={styles.mainButton}
             onPress={() => {
-              this.props.navigation.navigate("Products");
+              console.log(this.props.navigation);
+              this.props.navigation.navigate("SearchDiarist");
             }}
           >
             <Text style={styles.mainButtonText}>Listar serviços</Text>

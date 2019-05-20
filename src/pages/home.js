@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Button } from "react-native";
+import { Button, AsyncStorage } from "react-native";
 import { Drawer } from "native-base";
 import SideBar from "../sideBar/SideBar";
+import { isSignedIn } from "../services/auth";
 export default class Home extends Component {
 
   
@@ -11,10 +12,10 @@ export default class Home extends Component {
       openDrawer() {
         this.drawer._root.open();
       };
-  render() {
       
+  render() {
+    isSignedIn();
     return (
-        
       <Drawer
         ref={ref => {
           this.drawer = ref;

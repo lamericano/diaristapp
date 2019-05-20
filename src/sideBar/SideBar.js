@@ -1,8 +1,9 @@
 import React from "react";
 import { AppRegistry, Image, StatusBar } from "react-native";
 import { Container, Content, Text, List, ListItem } from "native-base";
-const routes = ["Home", "Serviços", "Agendamentos"];
+const routes = ["Home", "SignIn", "CustomerAdd"];
 export default class SideBar extends React.Component {
+  
   render() {
     return (
       <Container>
@@ -31,9 +32,11 @@ export default class SideBar extends React.Component {
             dataArray={routes}
             renderRow={data => {
               return (
+                
                 <ListItem
                   button
-                  onPress={() => this.props.navigation.navigate(data)}
+                  onPress={() => {
+                    this.props.navigation.navigate(data)}}
                 >
                   <Text>{data}</Text>
                 </ListItem>

@@ -2,20 +2,28 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 import { Root } from "native-base";
 import React from "react";
 import Main from "./pages/main";
-import Products from "./pages/products";
-import ProductAdd from "./pages/productAdd";
+import SearchDiarist from "./pages/searchDiarist";
 import CustomerAdd from "./pages/customerAdd";
 import Home from "./pages/home";
-import SignIn from "./pages/login";
+import SignIn from "./pages/signIn";
 
 const AppNavigator = createStackNavigator(
   {
-    Main,
-    Products,
-    ProductAdd,
-    CustomerAdd,
-    SignIn,
-	Home
+    SignIn : {
+      screen: SignIn
+    },
+    Main : {
+      screen: Main
+    },
+    SearchDiarist : {
+      screen: SearchDiarist
+    },
+    CustomerAdd : {
+      screen: CustomerAdd
+    },
+	  Home : {
+      screen: Home
+    }
   },
   {
     navigationOptions: {
@@ -34,3 +42,4 @@ export default () => (
     <AppContainer />
   </Root>
 );
+ 

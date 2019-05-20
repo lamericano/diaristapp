@@ -7,9 +7,9 @@ import {
   TouchableOpacity
 } from "react-native";
 import api from "../services/api";
-import { Text } from "native-base";
+import { Container, Header, Content, Button, Text } from "native-base";
 
-export default class Product extends Component {
+export default class SearchDiarist extends Component {
   static navigationOptions = {
     title: "diaristApp",
     headerTintColor: "black"
@@ -20,26 +20,27 @@ export default class Product extends Component {
   };
 
   componentDidMount() {
-    this.loadProduct();
+    this.loadSearch();
   }
 
-  loadProduct = async () => {
-    const response = await api.get("/Product");
+  loadSearch = async () => {
+    const AuthStr = 'Bearer '.concat('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZXYiLCJqdGkiOiIxMzgwZWJjZS02NDUzLTQxNjEtODU3OS0wNDU5MDZlMmQxZDciLCJleHAiOjE1NTgyOTk1NjYsImlzcyI6IkFwcERpYXJpc3RhQVBJIiwiYXVkIjoiQXBwRGlhcmlzdGFNb2JpbGUifQ.OM6mU_5gLI2qopLEk7HLmzOnI5SsZszHXs5ieW4O3No'); 
+    const response = await api.get("/BuscaDiarista/PorCidade?cidade=São Paulo", { 'headers': { Authorization: AuthStr } });
     const { docs } = response.data;
     this.setState({ docs });
   };
 
   renderItem = ({ item }) => (
-    <View style={styles.productContainer}>
-      <Text style={styles.productTitle}>{item.title}</Text>
-      <Text style={styles.productDescription}>{item.description}</Text>
+    <View style={styles.SearchContainer}>
+      <Text style={styles.SearchTitle}>{dados.id}</Text>
+      <Text style={styles.SearchDescription}>{dados.nome}</Text>
       <TouchableOpacity
-        style={styles.productButton}
+        style={styles.SearchButton}
         onPress={() => {
-          this.props.navigation.navigate("Product");
+          this.props.navigation.navigate("Search");
         }}
       >
-        <Text style={styles.productButtonText}>Comprar</Text>
+        <Text style={styles.SearchButtonText}>Detalhes</Text>
       </TouchableOpacity>
     </View>
   );
@@ -50,7 +51,7 @@ export default class Product extends Component {
         <FlatList
           contentContainerStyle={styles.list}
           data={this.state.docs}
-          keyExtractor={item => item._id}
+          keyExtractor={dados => dados.id}
           renderItem={this.renderItem}
         />
       </View>
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   list: {
     padding: 20
   },
-  productContainer: {
+  SearchContainer: {
     backgroundColor: "#FFF",
     borderWidth: 1,
     borderColor: "#DDD",
@@ -73,19 +74,19 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20
   },
-  productTitle: {
+  SearchTitle: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#333"
   },
 
-  productDescription: {
+  SearchDescription: {
     fontSize: 16,
     color: "#999",
     marginTop: 5,
     lineHeight: 24
   },
-  productButton: {
+  SearchButton: {
     height: 42,
     borderRadius: 5,
     borderWidth: 2,
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5
   },
-  productButtonText: {
+  SearchButtonText: {
     fontSize: 16,
     color: "#8C72E1",
     fontWeight: "bold"
