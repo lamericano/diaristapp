@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { StatusBar, Alert } from "react-native";
+import { StatusBar, Alert, AsyncStorage } from "react-native";
 import { Toast } from "native-base";
 import api from "../services/api";
-import { AsyncStorage } from "@react-native-community/async-storage"
 import setToken from "../services/auth"
 import {
   Container,
@@ -64,21 +63,21 @@ export default class SignIn extends Component {
   handlePasswordChange = senha => {
     this.setState({ senha });
   };
+  
+  handleSignUpPress = () => {
+    this.props.navigation.navigate("CustomerAdd");
+  };
   handleDadosChange = dados => {
     this.setState({ dados });
     handleAsyncStorage();
   };
-  handleSignUpPress = () => {
-    this.props.navigation.navigate("CustomerAdd");
-  };
-
   handleAsyncStorage = () => {
     if(this.state.dados){
       AsyncStorage.setItem('@diaristToken', this.state.dados);
       Alert.alert('Data Saved');
 
     } else{
-      Alert.alert('Please fill data');
+      Alert.alert('Existe um problema no token');
     }
   };
 
@@ -105,9 +104,8 @@ export default class SignIn extends Component {
               type: "success",
               duration: 2500
             })
-            console.log('')
-            /* AsyncStorage.setItem('@diaristToken', this.state.dados); */
-            Alert.alert(this.state.dados)
+            
+            AsyncStorage.setItem('@diaristApp:Token', this.state.dados);
             nav.navigate("Main");
           } else {
             console.log('else');

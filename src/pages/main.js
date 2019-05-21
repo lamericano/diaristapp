@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import { Text } from "native-base";
-import { isSignedIn } from "../services/auth";
 export default class Main extends Component {
   static navigationOptions = {
     title: "diaristApp",
@@ -18,17 +18,19 @@ export default class Main extends Component {
       color: "#FFF"
     }
   };
-  _retrieveData = async () => {
+/*   _retrieveData = async () => {
     try {
-      const value = AsyncStorage.getItem('@diaristApp:token');
+      const value = AsyncStorage.getItem('@diaristApp:Token');
       if (value !== null) {
         // We have data!!
-        Alert.alert(value);
+        console.log('FUNFOU');
       }
     } catch (error) {
-      console.log('Deu erro nesse token em patrão');
+      console.log('Deu erro nesse token em patrão, meu deus');
     }
-  };
+  }; */
+  
+
   render() {
     return (
       <View style={styles.container}>
@@ -44,15 +46,14 @@ export default class Main extends Component {
           >
             <Text style={styles.mainButtonText}>Listar serviços</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity style={styles.mainButton}
-						onPress={() => {
-							this.props.navigation.navigate('productAdd')
-						}}
-					>
-						<Text style={styles.mainButtonText}>
-							Cadastrar produtos
-						</Text>
-					</TouchableOpacity> */}
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={() => {
+              this.props.navigation.navigate("CustomerUpdate");
+            }}
+          >
+            <Text style={styles.mainButtonText}>Alterar informações</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.mainButton}
             onPress={() => {

@@ -9,7 +9,7 @@ import {
 import api from "../services/api";
 import { Container, Header, Content, Button, Text } from "native-base";
 
-export default class SearchDiarist extends Component {
+export default class Products extends Component {
   static navigationOptions = {
     title: "diaristApp",
     headerTintColor: "black"
@@ -18,45 +18,28 @@ export default class SearchDiarist extends Component {
   state = {
     docs: []
   };
-  constructor(props) {
-    super(props);
-    this.state = { token: "" };
-  }
 
-  _retrieveData = async () => {
-    try {
-      this.state.token = AsyncStorage.getItem('@diaristApp:Token');
-      if (value !== null) {
-        // We have data!!
-        console.log(value);
-      }
-    } catch (error) {
-      console.log('Deu erro nesse token em patrão, meu deus');
-    }
-  };
   componentDidMount() {
-    this.loadSearch();
-    this._retrieveData();
+    this.loadProducts();
   }
 
-  loadSearch = async () => {
-    const AuthStr = 'Bearer '.concat(this.state.token); 
-    const response = await api.get("/BuscaDiarista/PorCidade?cidade=São Paulo", { 'headers': { Authorization: AuthStr } });
+  loadProducts = async () => {
+    const response = await api.get("/products");
     const { docs } = response.data;
     this.setState({ docs });
   };
 
   renderItem = ({ item }) => (
-    <View style={styles.SearchContainer}>
-      <Text style={styles.SearchTitle}>{dados.id}</Text>
-      <Text style={styles.SearchDescription}>{dados.nome}</Text>
+    <View style={styles.productContainer}>
+      <Text style={styles.productTitle}>{item.title}</Text>
+      <Text style={styles.productDescription}>{item.description}</Text>
       <TouchableOpacity
-        style={styles.SearchButton}
+        style={styles.productButton}
         onPress={() => {
-          this.props.navigation.navigate("Search");
+          this.props.navigation.navigate("Products");
         }}
       >
-        <Text style={styles.SearchButtonText}>Detalhes</Text>
+        <Text style={styles.productButtonText}>Comprar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -67,7 +50,7 @@ export default class SearchDiarist extends Component {
         <FlatList
           contentContainerStyle={styles.list}
           data={this.state.docs}
-          keyExtractor={dados => dados.id}
+          keyExtractor={item => item._id}
           renderItem={this.renderItem}
         />
       </View>
@@ -82,7 +65,7 @@ const styles = StyleSheet.create({
   list: {
     padding: 20
   },
-  SearchContainer: {
+  productContainer: {
     backgroundColor: "#FFF",
     borderWidth: 1,
     borderColor: "#DDD",
@@ -90,19 +73,19 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20
   },
-  SearchTitle: {
+  productTitle: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#333"
   },
 
-  SearchDescription: {
+  productDescription: {
     fontSize: 16,
     color: "#999",
     marginTop: 5,
     lineHeight: 24
   },
-  SearchButton: {
+  productButton: {
     height: 42,
     borderRadius: 5,
     borderWidth: 2,
@@ -112,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5
   },
-  SearchButtonText: {
+  productButtonText: {
     fontSize: 16,
     color: "#8C72E1",
     fontWeight: "bold"
