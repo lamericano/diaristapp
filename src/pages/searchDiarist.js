@@ -38,8 +38,8 @@ export default class SearchDiarist extends Component {
 
   loadSearch = async () => {
     const AuthStr = 'Bearer '.concat('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZXYiLCJqdGkiOiIxMzgwZWJjZS02NDUzLTQxNjEtODU3OS0wNDU5MDZlMmQxZDciLCJleHAiOjE1NTgyOTk1NjYsImlzcyI6IkFwcERpYXJpc3RhQVBJIiwiYXVkIjoiQXBwRGlhcmlzdGFNb2JpbGUifQ.OM6mU_5gLI2qopLEk7HLmzOnI5SsZszHXs5ieW4O3No'); 
-    /* const response = await api.get("/BuscaDiarista/PorCidade?cidade=São Paulo", { 'headers': { Authorization: AuthStr } });
- */    const { docs } = response.data;
+    const response = await api.get("/BuscaDiarista/PorCidade?cidade=São Paulo", { 'headers': { Authorization: AuthStr } });
+    const { docs } = response.data;
     this.setState({ docs });
   };
 
