@@ -18,7 +18,7 @@ export default class Main extends Component {
       color: "#FFF"
     }
   };
-/*   _retrieveData = async () => {
+   _retrieveData = async () => {
     try {
       const value = AsyncStorage.getItem('@diaristApp:Token');
       if (value !== null) {
@@ -28,8 +28,12 @@ export default class Main extends Component {
     } catch (error) {
       console.log('Deu erro nesse token em patrão, meu deus');
     }
-  }; */
+  }; 
   
+  componentDidMount() {
+    this._retrieveData();
+    console.log('oi');
+  }
 
   render() {
     return (

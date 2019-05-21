@@ -104,8 +104,14 @@ export default class SignIn extends Component {
               type: "success",
               duration: 2500
             })
-            
-            AsyncStorage.setItem('@diaristApp:Token', this.state.dados);
+            try{
+              AsyncStorage.setItem('@diaristApp:Token', this.state.dados);
+              console.log('foi viado')
+            }
+            catch(error){
+              console.log('nao foi viado')
+              console.log(error);
+            }
             nav.navigate("Main");
           } else {
             console.log('else');
