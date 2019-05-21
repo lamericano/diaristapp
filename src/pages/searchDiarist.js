@@ -4,7 +4,8 @@ import {
   StyleSheet,
   View,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import api from "../services/api";
 import { Container, Header, Content, Button, Text } from "native-base";
@@ -18,31 +19,27 @@ export default class SearchDiarist extends Component {
   state = {
     docs: []
   };
-  constructor(props) {
-    super(props);
-    this.state = { token: "" };
-  }
-
   _retrieveData = async () => {
     try {
-      this.state.token = AsyncStorage.getItem('@diaristApp:Token');
+      const value = AsyncStorage.getItem('@diaristApp:Token');
       if (value !== null) {
         // We have data!!
-        console.log(value);
+        console.log('FUNFOU');
       }
     } catch (error) {
       console.log('Deu erro nesse token em patrão, meu deus');
     }
-  };
+  }; 
+  
   componentDidMount() {
     this.loadSearch();
     this._retrieveData();
   }
 
   loadSearch = async () => {
-    const AuthStr = 'Bearer '.concat(this.state.token); 
-    const response = await api.get("/BuscaDiarista/PorCidade?cidade=São Paulo", { 'headers': { Authorization: AuthStr } });
-    const { docs } = response.data;
+    const AuthStr = 'Bearer '.concat('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZXYiLCJqdGkiOiIxMzgwZWJjZS02NDUzLTQxNjEtODU3OS0wNDU5MDZlMmQxZDciLCJleHAiOjE1NTgyOTk1NjYsImlzcyI6IkFwcERpYXJpc3RhQVBJIiwiYXVkIjoiQXBwRGlhcmlzdGFNb2JpbGUifQ.OM6mU_5gLI2qopLEk7HLmzOnI5SsZszHXs5ieW4O3No'); 
+    /* const response = await api.get("/BuscaDiarista/PorCidade?cidade=São Paulo", { 'headers': { Authorization: AuthStr } });
+ */    const { docs } = response.data;
     this.setState({ docs });
   };
 

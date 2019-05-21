@@ -18,7 +18,24 @@ export default class Main extends Component {
       color: "#FFF"
     }
   };
-   _retrieveData = async () => {
+   
+ /*  constructor() {
+    try {
+      const value = AsyncStorage.getItem('@diaristApp:Token');
+      if (value !== null) {
+        // We have data!!
+        console.log('FUNFOU');
+      }
+    } catch (error) {
+      console.log('Deu erro nesse token em patrão, meu deus');
+    }
+  }
+  
+  componentDidMount() {
+    
+  } */
+
+  _retrieveData = async () => {
     try {
       const value = AsyncStorage.getItem('@diaristApp:Token');
       if (value !== null) {
@@ -32,7 +49,8 @@ export default class Main extends Component {
   
   componentDidMount() {
     this._retrieveData();
-    console.log('oi');
+    const value = AsyncStorage.getItem('@diaristApp:Token');
+    console.log(value);
   }
 
   render() {
@@ -48,7 +66,7 @@ export default class Main extends Component {
               this.props.navigation.navigate("SearchDiarist");
             }}
           >
-            <Text style={styles.mainButtonText}>Listar serviços</Text>
+            <Text style={styles.mainButtonText}>Listar serviçoszz</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.mainButton}

@@ -4,7 +4,6 @@ import React from "react";
 import Main from "./pages/main";
 import SearchDiarist from "./pages/searchDiarist";
 import CustomerAdd from "./pages/customerAdd";
-import CustomerUpdate from "./pages/customerUpdate";
 import Home from "./pages/home";
 import SignIn from "./pages/signIn";
 
@@ -21,9 +20,6 @@ const AppNavigator = createStackNavigator(
     },
     CustomerAdd : {
       screen: CustomerAdd
-    },
-    CustomerUpdate : {
-      screen: CustomerUpdate
     },
 	  Home : {
       screen: Home
@@ -46,3 +42,4 @@ export default () => (
     <AppContainer />
   </Root>
 );
+ 
