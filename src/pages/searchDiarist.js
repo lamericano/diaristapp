@@ -12,19 +12,25 @@ import { Container, Header, Content, Button, Text } from "native-base";
 
 export default class SearchDiarist extends Component {
   static navigationOptions = {
-    title: "diaristApp",
+    title: "Pesquisar serviços",
     headerTintColor: "black"
   };
+  constructor(props) {
+    super(props);
+    this.state = { token: "" };
+  }
 
   state = {
     docs: []
   };
   _retrieveData = async () => {
     try {
-      const value = AsyncStorage.getItem('@diaristApp:Token');
-      if (value !== null) {
-        // We have data!!
-        console.log('FUNFOU');
+      const token = await AsyncStorage.getItem('@diaristApp:Token');
+      if (token !== null) {
+        this.state.token = token;
+        console.log(token);
+        this.loadSearch();
+        console.log('FUNFOU NO SEARCH');
       }
     } catch (error) {
       console.log('Deu erro nesse token em patrão, meu deus');
@@ -32,12 +38,12 @@ export default class SearchDiarist extends Component {
   }; 
   
   componentDidMount() {
-    this.loadSearch();
     this._retrieveData();
+    
   }
 
   loadSearch = async () => {
-    const AuthStr = 'Bearer '.concat('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZXYiLCJqdGkiOiIxMzgwZWJjZS02NDUzLTQxNjEtODU3OS0wNDU5MDZlMmQxZDciLCJleHAiOjE1NTgyOTk1NjYsImlzcyI6IkFwcERpYXJpc3RhQVBJIiwiYXVkIjoiQXBwRGlhcmlzdGFNb2JpbGUifQ.OM6mU_5gLI2qopLEk7HLmzOnI5SsZszHXs5ieW4O3No'); 
+    const AuthStr = 'Bearer '.concat(this.state.token); 
     const response = await api.get("/BuscaDiarista/PorCidade?cidade=São Paulo", { 'headers': { Authorization: AuthStr } });
     const { docs } = response.data;
     this.setState({ docs });

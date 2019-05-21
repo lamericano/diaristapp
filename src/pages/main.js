@@ -37,10 +37,10 @@ export default class Main extends Component {
 
   _retrieveData = async () => {
     try {
-      const value = AsyncStorage.getItem('@diaristApp:Token');
+      const value = await AsyncStorage.getItem('@diaristApp:Token');
       if (value !== null) {
         // We have data!!
-        console.log('FUNFOU');
+        console.log('FUNFOU NO MAIN');
       }
     } catch (error) {
       console.log('Deu erro nesse token em patrão, meu deus');
