@@ -52,7 +52,7 @@ export default class Main extends Component {
     const value = AsyncStorage.getItem('@diaristApp:Token');
     console.log(value);
   }
-
+  
   render() {
     return (
       <View style={styles.container}>
@@ -66,7 +66,15 @@ export default class Main extends Component {
               this.props.navigation.navigate("SearchDiarist");
             }}
           >
-            <Text style={styles.mainButtonText}>Listar serviçoszz</Text>
+            <Text style={styles.mainButtonText}>Listar serviços</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={() => {
+              this.props.navigation.navigate("Services");
+            }}
+          >
+            <Text style={styles.mainButtonText}>Listar agendamentos</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.mainButton}

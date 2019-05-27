@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { StatusBar, Alert, AsyncStorage } from "react-native";
+import { StatusBar, Alert, AsyncStorage, Keyboard  } from "react-native";
 import { Toast } from "native-base";
 import api from "../services/api";
-import setToken from "../services/auth"
 import {
   Container,
   Logo,
@@ -18,6 +17,7 @@ export default class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = { email: "", senha: "", error: "", dados: "" };
+    console.disableYellowBox = true;
   }
   
    static navigationOptions = {
@@ -43,11 +43,12 @@ export default class SignIn extends Component {
         <Button
           onPress={() => {
             this.handleSignInPress();
+            Keyboard.dismiss();
           }}
         >
           <ButtonText>Entrar</ButtonText>
         </Button>
-        <SignUpLink onPress={() => {this.handleSignUpPress();}}>
+        <SignUpLink onPress={() => {this.handleSignUpPress(); }}>
           <SignUpLinkText>
             Não possuí uma conta ainda? Clique aqui!
           </SignUpLinkText>
@@ -102,7 +103,7 @@ export default class SignIn extends Component {
               text: 'Olá '.concat(response.data.dados.contratante.nome,', seja bem-vindo!'),
               buttonText: 'Fechar',
               type: "success",
-              duration: 2500
+              duration: 1500
             })
             try{
               AsyncStorage.setItem('@diaristApp:Token', this.state.dados);

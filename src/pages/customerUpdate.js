@@ -21,7 +21,7 @@ export default class CustomerUpdate extends Component {
     this.state = { list: [] };
   }
   static navigationOptions = {
-    title: "Cadastre-se!",
+    title: "Suas informações",
     headerTintColor: "#FFF",
     headerStyle: {
       backgroundColor: "#8C72E1",

@@ -268,10 +268,12 @@ class FormCustomer extends Component {
           label="Endereço"
           onSubmit={() =>
             Toast.show({
-              text: "Customer criado com sucesso!",
+              text: "Cadastro realizado com sucesso!",
               buttonText: "Okay",
               type: "success"
-            })
+            },
+            this.props.navigation.navigate("SearchDiarist")
+            )
           }
           nextBtnStyle={style.button}
           nextBtnTextStyle={style.buttonText}
