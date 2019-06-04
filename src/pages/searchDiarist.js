@@ -5,10 +5,13 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native';
 import api from '../services/api';
 import { Container, Header, Content, Button, Text } from 'native-base';
+import { getActiveChildNavigationOptions } from 'react-navigation';
+import { isTSTypeParameterDeclaration, mixedTypeAnnotation } from '@babel/types';
 
 export default class SearchDiarist extends Component {
   static navigationOptions = {
@@ -17,8 +20,13 @@ export default class SearchDiarist extends Component {
   };
   constructor(props) {
     super(props);
-    this.state = { token: '', docs: [] };
-    this.loadSearch();
+    this.state = {
+      token: '',
+      docs: [],
+      loading: false,
+      contentLoaded:false,
+    };
+    animating = this.state.loading
   }
   
   retrieveData = async () => {
@@ -26,7 +34,7 @@ export default class SearchDiarist extends Component {
       const token = await AsyncStorage.getItem('@diaristApp:Token');
       if (token !== null) {
         this.state.token = token;
-        
+        this.loadSearch();
       }
     } catch (error) {
       console.log(error);
@@ -34,25 +42,41 @@ export default class SearchDiarist extends Component {
   }; 
   
   loadSearch = async () => {
+    this.setState({loading:false});
     const AuthStr = 'Bearer '.concat(this.state.token); 
     const response = await api.get('/BuscaDiarista/PorCidade?cidade=São Paulo', 
                                         { headers: { Authorization: AuthStr }});
-    this.state.docs = response.data.dados;
-    console.log(this.state.docs);
+    //this.state.docs = response.data.dados;
+    //this.state.loading = false;
+
+    /*dica importante!!
+    presta atencao
+    isso vai mudar a sua vida!!
+    o react por padrao
+    so renderiza de novo o componente vc usa o this.setState() e n o this.state
+    vc vai entender agr */
+
+    this.setState({
+      loading:false,
+      docs:response.data.dados,
+      contentLoaded:true
+    })
+    console.log(response.data.dados); 
   };
   
-  componentDidMount(){
+  async componentDidMount(){
     this.retrieveData();
   }
 
   renderItem = ({ item }) => (
     <View style={styles.SearchContainer}>
-      <Text style={styles.SearchTitle}>{item.id}</Text>
-      <Text style={styles.SearchDescription}>{item.nome}</Text>
+      <Text style={styles.SearchTitle}>{item.nome}</Text>
+      <Text style={styles.SearchDescription}>Preço diaria: {item.precoDiaria}</Text>
+      <Text style={styles.SearchDescription}>Avaliação: {item.nota}</Text>
       <TouchableOpacity
         style={styles.SearchButton}
         onPress={() => {
-          this.props.navigation.navigate('Main');
+          this.props.navigation.navigate('Main'); 
         }}
       >
         <Text style={styles.SearchButtonText}>Detalhes</Text>
@@ -60,21 +84,28 @@ export default class SearchDiarist extends Component {
     </View>
   );
 
+
   render() {
-    return (
-      <View>
-        <Text>Oi pessoal </Text>
-        <Button>
-          <Text>Olaa</Text>
-        </Button>
-        <FlatList
-          contentContainerStyle={styles.list}
-          data={this.state.docs}
-          keyExtractor={item => item.id}
-          renderItem={this.renderItem}
-        />
-      </View>
-    );
+    
+    /*if (!this.state.contentLoaded && this.state.loading){
+      return ( <ActivityIndicator animating = {this.state.loading}/> );
+    } else {*/
+      return (
+        <View style={{flex: 1}}>
+          {/* <Button>
+            <Text>Pesquisar</Text>
+          </Button> */}
+          <FlatList
+            contentContainerStyle={styles.list}
+            data={this.state.docs}
+            keyExtractor={item => item.id}
+            renderItem={this.renderItem}
+            extraData={this.state}
+          />  
+        </View>
+      )
+
+  //} se eu bugar ele e fizer o reload, aparece as infos... agora com as alteraçoes nao sei mais/
   }
 }
 
@@ -83,7 +114,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#000'
   },
   list: {
-    padding: 20
+    padding: 20,
+    flex: 1
   },
   SearchContainer: {
     backgroundColor: '#FFF',

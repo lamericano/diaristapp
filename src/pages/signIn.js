@@ -26,7 +26,8 @@ export default class SignIn extends Component {
 
   render() {
     return (
-      <Container>
+      <Container onPress={() => {Keyboard.dismiss();
+      }}>
         <StatusBar hidden />
         <Logo source={require("../../images/logo.png")} resizeMode="contain" />
         <Input
@@ -107,10 +108,10 @@ export default class SignIn extends Component {
             })
             try{
               AsyncStorage.setItem('@diaristApp:Token', this.state.dados);
-              console.log('foi viado')
+              console.log('Token armazenado com sucesso')
             }
             catch(error){
-              console.log('nao foi viado')
+              console.log('O token não foi armazenado corretamente')
               console.log(error);
             }
             nav.navigate("Main");

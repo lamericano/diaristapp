@@ -9,7 +9,7 @@ import CustomerUpdate from "./pages/customerUpdate";
 import Home from "./pages/home";
 import SignIn from "./pages/signIn";
 
-const AppNavigator = createStackNavigator(
+export const AppNavigator = createStackNavigator(
   {
     SignIn : {
       screen: SignIn
