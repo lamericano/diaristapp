@@ -71,6 +71,8 @@ export default class SearchDiarist extends Component {
   renderItem = ({ item }) => (
     <View style={styles.SearchContainer}>
       <Text style={styles.SearchTitle}>{item.nome}</Text>
+      <Text style={styles.SearchDescription}>{item.email}</Text>
+      <Text style={styles.SearchDescription}>Data de Nascimento: {item.dataNascimento}</Text>
       <Text style={styles.SearchDescription}>Preço diaria: {item.precoDiaria}</Text>
       <Text style={styles.SearchDescription}>Avaliação: {item.nota}</Text>
       <TouchableOpacity
@@ -87,9 +89,9 @@ export default class SearchDiarist extends Component {
 
   render() {
     
-    /*if (!this.state.contentLoaded && this.state.loading){
+    /* if (!this.state.contentLoaded && this.state.loading){
       return ( <ActivityIndicator animating = {this.state.loading}/> );
-    } else {*/
+    } else { */
       return (
         <View style={{flex: 1}}>
           {/* <Button>
@@ -105,7 +107,7 @@ export default class SearchDiarist extends Component {
         </View>
       )
 
-  //} se eu bugar ele e fizer o reload, aparece as infos... agora com as alteraçoes nao sei mais/
+  /* } */
   }
 }
 
