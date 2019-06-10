@@ -272,7 +272,7 @@ class FormCustomer extends Component {
               buttonText: "Okay",
               type: "success"
             },
-            this.props.navigation.navigate("SearchDiarist")
+            this.props.navigation.navigate("SignIn")
             )
           }
           nextBtnStyle={style.button}

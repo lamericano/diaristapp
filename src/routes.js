@@ -8,6 +8,7 @@ import Services from "./pages/services";
 import CustomerUpdate from "./pages/customerUpdate";
 import Home from "./pages/home";
 import SignIn from "./pages/signIn";
+import SideBar from "./sideBar/SideBar";
 
 export const AppNavigator = createStackNavigator(
   {
@@ -50,4 +51,3 @@ export default () => (
     <AppContainer />
   </Root>
 );
- 

@@ -1,29 +1,51 @@
 import React, { Component } from "react";
-import { Button, AsyncStorage } from "react-native";
-import { Drawer } from "native-base";
+import { StyleSheet } from "react-native";
+import { Drawer, Header, Title, Left, Right, Icon, Body, Button } from "native-base";
 import SideBar from "../sideBar/SideBar";
-export default class Home extends Component {
 
-  
+export default class Home extends Component {
     closeDrawer() {
         this.drawer._root.close();
       };
-      openDrawer() {
-        this.drawer._root.open();
+    openDrawer() {
+      this.drawer._root.open()
       };
-      
+      static navigationOptions = {
+        header: null
+      }
   render() {
-    isSignedIn();
+
     return (
+      
       <Drawer
         ref={ref => {
           this.drawer = ref;
         }}
-        content={<SideBar navigator={this.navigator} />}
+        content={<SideBar navigation={this.props.navigation}/>}
         onClose={() => this.closeDrawer()}
+      
       >
-        <Button title="Oi" onPress={() => this.openDrawer()}/>
+        <Header style={styles.header}>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.openDrawer()}
+            >
+              <Icon type="FontAwesome" name="home" />
+            </Button>
+          </Left>
+          <Body>
+            <Title>diaristApp</Title>
+          </Body>
+          <Right />
+        </Header>
       </Drawer>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#8C72E1"
+  }
+});

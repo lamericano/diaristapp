@@ -1,22 +1,18 @@
 import React from "react";
-import { AppRegistry, Image, StatusBar } from "react-native";
+import { AppRegistry, Image, StyleSheet } from "react-native";
 import { Container, Content, Text, List, ListItem } from "native-base";
-import Home from "../pages/home";
-const routes = [ Home, "SignIn", "CustomerAdd"];
 export default class SideBar extends React.Component {
   
   render() {
     return (
-      <Container>
+      <Container style={styles.container}>
         <Content>
           <Image
-            source={{
-              uri:
-                "https://github.com/GeekyAnts/NativeBase-KitchenSink/raw/react-navigation/img/drawer-cover.png"
-            }}
+            source={require('../../images/logo.png')}
             style={{
-              height: 120,
-              alignSelf: "stretch",
+              height: 150,
+              width: 300,
+              marginTop: 20,
               justifyContent: "center",
               alignItems: "center"
             }}
@@ -29,23 +25,55 @@ export default class SideBar extends React.Component {
                   "https://github.com/GeekyAnts/NativeBase-KitchenSink/raw/react-navigation/img/logo.png"
               }}
             />
-          <List
-            dataArray={routes}
-            renderRow={data => {
-              return (
-                
-                <ListItem
-                  button
-                  onPress={() => {
-                    this.props.navigation.navigate(data)}}
-                >
-                  <Text>{data}</Text>
-                </ListItem>
-              );
-            }}
-          />
+          <List>
+              <ListItem
+                      button
+                      onPress={() => {
+                        this.props.navigation.navigate("Home");}}
+                    >
+                      <Text style={styles.listItemText}>Início</Text>
+              </ListItem>
+              <ListItem
+                      button
+                      onPress={() => {
+                        this.props.navigation.navigate("SearchDiarist");}}
+                    >
+                      <Text style={styles.listItemText}>Procure um diarist</Text>
+              </ListItem>
+              <ListItem
+                      button
+                      onPress={() => {
+                        this.props.navigation.navigate("Home");}}
+                    >
+                      <Text style={styles.listItemText}>Agenda</Text>
+              </ListItem>
+              <ListItem
+                      button
+                      onPress={() => {
+                        this.props.navigation.navigate("CustomerUpdate");}}
+                    >
+                      <Text style={styles.listItemText}>Perfil</Text>
+              </ListItem>
+              <ListItem
+                      button
+                      onPress={() => {
+                        this.props.navigation.navigate("Home");}}
+                    >
+                      <Text style={styles.listItemText}>Sair</Text>
+              </ListItem>
+          </List>
         </Content>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#8C72E1"
+  },
+  listItemText: {
+    color: "#FFF"
+  }
+
+});

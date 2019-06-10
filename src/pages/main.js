@@ -54,6 +54,7 @@ export default class Main extends Component {
   }
   
   render() {
+    
     return (
       <View style={styles.container}>
         <View style={styles.mainContainer}>
@@ -103,7 +104,7 @@ export default class Main extends Component {
 		  <TouchableOpacity
             style={styles.mainButton}
             onPress={() => {
-				this.props.navigation.navigate("Home");
+				      this.props.navigation.navigate("Home");
             }}
           >
             <Text style={styles.mainButtonText}>Home</Text>
