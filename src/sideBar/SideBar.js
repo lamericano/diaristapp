@@ -10,21 +10,14 @@ export default class SideBar extends React.Component {
           <Image
             source={require('../../images/logo.png')}
             style={{
-              height: 150,
-              width: 300,
-              marginTop: 20,
+              height: 180,
+              width: 330,
+              marginTop: 30,
               justifyContent: "center",
               alignItems: "center"
             }}
            />
-            <Image
-              square
-              style={{ height: 80, width: 70 }}
-              source={{
-                uri:
-                  "https://github.com/GeekyAnts/NativeBase-KitchenSink/raw/react-navigation/img/logo.png"
-              }}
-            />
+            
           <List>
               <ListItem
                       button
@@ -43,7 +36,7 @@ export default class SideBar extends React.Component {
               <ListItem
                       button
                       onPress={() => {
-                        this.props.navigation.navigate("Home");}}
+                        this.props.navigation.navigate("Home2");}}
                     >
                       <Text style={styles.listItemText}>Agenda</Text>
               </ListItem>
@@ -57,7 +50,7 @@ export default class SideBar extends React.Component {
               <ListItem
                       button
                       onPress={() => {
-                        this.props.navigation.navigate("Home");}}
+                        this.props.navigation.navigate("Home3");}}
                     >
                       <Text style={styles.listItemText}>Sair</Text>
               </ListItem>
