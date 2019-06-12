@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   View,
   FlatList,
   TouchableOpacity,
   AsyncStorage,
+  Modal,
   ActivityIndicator
 } from 'react-native';
 import api from '../services/api';
-import { Container, Header, Content, Button, Text } from 'native-base';
-import { getActiveChildNavigationOptions } from 'react-navigation';
-import { isTSTypeParameterDeclaration, mixedTypeAnnotation } from '@babel/types';
+import { Icon, Text } from 'native-base';
+
 
 export default class SearchDiarist extends Component {
   static navigationOptions = {
     title: 'Pesquisar serviços',
-    headerTintColor: 'black'
+    headerTintColor: '#FFF',
+    headerStyle: {
+      backgroundColor: "#8759ff"
+    }
   };
   constructor(props) {
     super(props);
@@ -25,6 +27,7 @@ export default class SearchDiarist extends Component {
       docs: [],
       loading: false,
       contentLoaded:false,
+      modalVisible: false,
     };
     animating = this.state.loading
   }
@@ -68,20 +71,43 @@ export default class SearchDiarist extends Component {
     this.retrieveData();
   }
 
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
   renderItem = ({ item }) => (
     <View style={styles.SearchContainer}>
-      <Text style={styles.SearchTitle}>{item.nome}</Text>
-      <Text style={styles.SearchDescription}>{item.email}</Text>
-      <Text style={styles.SearchDescription}>Data de Nascimento: {item.dataNascimento}</Text>
-      <Text style={styles.SearchDescription}>Preço diaria: {item.precoDiaria}</Text>
-      <Text style={styles.SearchDescription}>Avaliação: {item.nota}</Text>
+    <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={{marginTop: 22}}>
+            <View>
+              <Text>Hello World!</Text>
+
+              <TouchableOpacity
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible);
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      <Text style={styles.name}>{item.nome}</Text>
+      <Text style={styles.rating}><Icon style={styles.ratingStar} name="star"/>{item.nota}</Text>
+      <Text style={styles.price}>R${item.precoDiaria}</Text>
+      
       <TouchableOpacity
         style={styles.SearchButton}
         onPress={() => {
-          this.props.navigation.navigate('Main'); 
-        }}
+            this.setModalVisible(true);
+          }}
       >
-        <Text style={styles.SearchButtonText}>Detalhes</Text>
+        <Text style={styles.SearchButtonText}>Agendar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -116,8 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000'
   },
   list: {
-    padding: 20,
-    flex: 1
+    padding: 20
   },
   SearchContainer: {
     backgroundColor: '#FFF',
@@ -127,31 +152,44 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20
   },
-  SearchTitle: {
+  name: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333'
   },
-
-  SearchDescription: {
+  rating: {
     fontSize: 16,
     color: '#999',
     marginTop: 5,
+    lineHeight: 24,
+    textAlign: 'right'
+  },
+  ratingStar: {
+    fontSize: 12,
+    color: '#F00',
+    marginTop: 5,
+    marginLeft: 5,
+    lineHeight: 24,
+    textAlign: 'right'
+  },
+  price: {
+    fontSize: 20,
+    color: '#000',
+    marginTop: 5,
+    fontWeight: 'bold',
     lineHeight: 24
   },
   SearchButton: {
     height: 42,
     borderRadius: 5,
-    borderWidth: 2,
-    borderColor: '#8C72E1',
-    backgroundColor: 'transparent',
+    backgroundColor: '#8759ff',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 5
   },
   SearchButtonText: {
     fontSize: 16,
-    color: '#8C72E1',
+    color: '#FFF',
     fontWeight: 'bold'
   }
 });

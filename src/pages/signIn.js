@@ -26,10 +26,9 @@ export default class SignIn extends Component {
 
   render() {
     return (
-      <Container onPress={() => {Keyboard.dismiss();
-      }}>
+      <Container >
         <StatusBar hidden />
-        <Logo source={require("../../images/logo.png")} resizeMode="contain" />
+        <Logo source={require("../../images/logo.png")} resizeMode="contain"/>
         <Input
           placeholder="Endereço de e-mail"
           value={this.state.email}
@@ -69,19 +68,7 @@ export default class SignIn extends Component {
   handleSignUpPress = () => {
     this.props.navigation.navigate("CustomerAdd");
   };
-  handleDadosChange = dados => {
-    this.setState({ dados });
-    handleAsyncStorage();
-  };
-  handleAsyncStorage = () => {
-    if(this.state.dados){
-      AsyncStorage.setItem('@diaristToken', this.state.dados);
-      Alert.alert('Data Saved');
 
-    } else{
-      Alert.alert('Existe um problema no token');
-    }
-  };
 
   handleSignInPress = async () => {
     const nav = this.props.navigation;
@@ -96,10 +83,10 @@ export default class SignIn extends Component {
         {
           Email: this.state.email,
           Senha: this.state.senha,
-        }
+        },
+        
         );
           if ((response.data.sucesso == true)) {
-            this.state.dados = response.data.dados.token
             Toast.show({
               text: 'Olá '.concat(response.data.dados.contratante.nome,', seja bem-vindo!'),
               buttonText: 'Fechar',
@@ -107,14 +94,21 @@ export default class SignIn extends Component {
               duration: 1500
             })
             try{
-              AsyncStorage.setItem('@diaristApp:Token', this.state.dados);
+              AsyncStorage.setItem('@diaristApp:Token', response.data.dados.token);
               console.log('Token armazenado com sucesso')
+              if (response.data.dados.diarista == null) {
+              AsyncStorage.setItem('@diaristApp:idContratante', response.data.dados.contratante.idContratante);
+            }
+            else {
+              AsyncStorage.setItem('@diaristApp:idDiarista', response.data.dados.diarista);
+            }
+              console.log('ids armazenadoz com sucesso')
+              nav.navigate("Main");
             }
             catch(error){
               console.log('O token não foi armazenado corretamente')
               console.log(error);
             }
-            nav.navigate("Main");
           } else {
             console.log('else');
           }           

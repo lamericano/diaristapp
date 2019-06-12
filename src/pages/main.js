@@ -11,7 +11,7 @@ export default class Main extends Component {
     title: "diaristApp",
     headerTintColor: "#FFF",
     headerStyle: {
-      backgroundColor: "#8C72E1",
+      backgroundColor: "#8759ff",
       borderRadius: 15,
       marginLeft: 3,
       marginRight: 3,
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     borderWidth: 2,
     borderColor: "#000",
-    backgroundColor: "#8C72E1",
+    backgroundColor: "#8759ff",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 8,

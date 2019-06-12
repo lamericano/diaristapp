@@ -63,7 +63,7 @@ export default class SideBar extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#8C72E1"
+    backgroundColor: "#8759ff"
   },
   listItemText: {
     color: "#FFF"

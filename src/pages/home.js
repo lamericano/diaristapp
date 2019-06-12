@@ -15,29 +15,34 @@ export default class Home extends Component {
       }
 
       _renderHeader(item, expanded) {
-        return (
-          <View style={{
-            flexDirection: "row",
-            padding: 10,
-            justifyContent: "space-between",
-            alignItems: "center" ,
-            backgroundColor: "#8C72E1" }}>
-          <Text style={{ fontWeight: "600", color: '#FFF' }}>
-              {" "}{item.title}
-            </Text>
-            {expanded
-              ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
-              : <Icon style={{ fontSize: 18 }} name="add-circle" />}
-          </View>
-        );
+          return (
+            <View style={{
+              flexDirection: "row",
+              padding: 10,
+              justifyContent: "space-between",
+              alignItems: "center" ,
+              marginTop: 20,
+              backgroundColor: "#8759ff",
+              borderTopLeftRadius: 12,
+              borderTopRightRadius: 12
+               }}>
+            <Text style={{ fontWeight: "600", color: '#FFF' }}>
+                {" "}{item.title}
+              </Text>
+              {expanded
+                ? <Icon style={{ fontSize: 20, color: '#FFF' }} name="remove" />
+                : <Icon style={{ fontSize: 20, color: '#FFF' }} name="add" />}
+            </View>
+          );
       }
       _renderContent(item) {
         return (
           <Text
             style={{
-              backgroundColor: "#e3f1f1",
               padding: 10,
+              borderWidth: 0.11,
               fontStyle: "italic",
+              borderBottomLeftRadius: 12
             }}
           >
             {item.content}
@@ -47,9 +52,7 @@ export default class Home extends Component {
 
   render() {
     const dataArray = [
-      { title: "Serviços agendados", content: "Lorem ipsum dolor sit amet" },
-      { title: "Serviços recentes", content: "Lorem ipsum dolor sit amet" },
-      { title: "Melhores Diarists para você", content: "Lorem ipsum dolor sit amet" }
+      { title: "Serviços agendados", content: "Lorem ipsum dolor sit amet" }
     ];
     return (
       <Drawer
@@ -66,7 +69,7 @@ export default class Home extends Component {
               transparent
               onPress={() => this.openDrawer()}
             >
-              <Icon type="FontAwesome" name="home" />
+              <Icon name="home" />
             </Button>
           </Left>
           <Body>
@@ -78,9 +81,12 @@ export default class Home extends Component {
           <Content padder>
             <Accordion dataArray={dataArray}
             animation={true}
-            expanded={true}
+            expanded={0}
             renderHeader={this._renderHeader}
-            renderContent={this._renderContent} />
+            renderContent={this._renderContent} 
+            
+            style={styles.accord}
+            />
           </Content>
       </Container>
       </Drawer>
@@ -92,12 +98,9 @@ export default class Home extends Component {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#8C72E1",
-    
-
+    backgroundColor: "#8759ff"
   },
-  widget:{
-    backgroundColor: "#8C72E1",
-    borderRadius: 8
+  accord:{
+    borderWidth: 0
   }
 });

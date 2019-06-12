@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Container = styled.View`
   flex: 1;
   
-  backgroundColor: #8C72E1;
+  backgroundColor: #8759ff;
 `;
 
 const Logo = styled.Image`
@@ -35,7 +35,7 @@ const ErrorMessage = styled.Text`
 const Button = styled.TouchableHighlight`
   padding: 20px;
   borderRadius: 8px;
-  backgroundColor: #AF9BF3;
+  backgroundColor: #9972ff;
   alignSelf: stretch;
   margin: 15px;
   marginHorizontal: 8px;
