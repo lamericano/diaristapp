@@ -136,7 +136,7 @@ export default class SearchDiarist extends Component {
   /* } */
   }
 }
-
+/* justifyContent: 'space-between' */
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000'

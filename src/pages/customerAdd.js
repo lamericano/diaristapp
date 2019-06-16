@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, CheckBox, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   Container,
   Content,
@@ -10,10 +10,12 @@ import {
   Input,
   Form,
   Toast,
-  DatePicker
+  DatePicker,
+  Alert,
 } from "native-base";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
-import $ from "jquery";
+import api from '../services/api';
+import { format } from 'date-fns';
 
 export default class CustomerAdd extends Component {
   constructor() {
@@ -48,120 +50,132 @@ class FormCustomer extends Component {
   constructor() {
     super();
     this.state = {
-      nome: "",
-      senha: "",
-      email: "",
-      cpf: "",
-      dataNascimento: "",
-      logradouro: "",
-      numero: "",
-      cidade: "",
-      estado: "",
-      cep: "",
-      complemento: "",
-      telefone: "",
-      listCustomer: ""
+      contratante: true,
+      nome: '',
+      senha: '',
+      email: '',
+      cpf: '',
+      dataNascimento: new Date(),
+      telefone: '',
+      logradouro: '',
+      numero: '',
+      cidade: '',
+      estado: '',
+      complemento: '',
+      cep: '',
+      buttonContratanteDisabled: false,
+      buttonDiaristaDisabled: false
     };
-    this.enviaForm = this.enviaForm.bind(this);
-    this.setNome = this.setNome.bind(this);
-    this.setSenha = this.setSenha.bind(this);
-    this.setEmail = this.setEmail.bind(this);
-    this.setCpf = this.setCpf.bind(this);
-    this.setDataNascimento = this.setDataNascimento.bind(this);
-    this.setTelefone = this.setTelefone.bind(this);
-    this.setLogradouro = this.setLogradouro.bind(this);
-    this.setNumero = this.setNumero.bind(this);
-    this.setCidade = this.setCidade.bind(this);
-    this.setEstado = this.setEstado.bind(this);
-    this.setComplemento = this.setComplemento.bind(this);
-    this.setCep = this.setCep.bind(this);
+    Text.defaultProps.uppercase = false;
   }
 
-  enviaForm(event) {
-    event.preventDefault();
-    $.ajax({
-      url: "http://localhost:52807",
-      contentType: "application/json",
-      dataType: "json",
-      type: "post",
-      data: JSON.stringify({
-        Nome: this.state.nome,
-        Senha: this.state.senha,
-        Email: this.state.email,
-        Cpf: this.state.cpf,
-        DataNascimento: this.state.dataNascimento,
-        Telefone: this.state.telefone,
-        Logradouro: this.state.logradouro,
-        Numero: this.state.numero,
-        Cidade: this.state.cidade,
-        Estado: this.state.estado,
-        Complemento: this.state.complemento,
-        Cep: this.state.cep,
-        listCustomer: this.state.listCustomer
-      }),
-      success: function(newList) {
-        PubSub.publish("update-list-produtos", newList);
-        this.setState({
-          nome: "",
-          senha: "",
-          email: "",
-          idendereco: "",
-          logradouro: "",
-          cidade: "",
-          estado: "",
-          cep: "",
-          numero: "",
-          complemento: "",
-          telefone: "",
-          listCustomer: ""
+  handleSubmit = async () => {
+    
+      try { 
+        const response = await api.post("/cadastro", 
+        {
+          Contratante: this.state.contratante,
+          Nome: this.state.nome,
+          Senha: this.state.senha,
+          Email: this.state.email,
+          Cpf: this.state.cpf,
+          DataNascimento: format(this.state.dataNascimento, 'YYYY-MM-DD'),
+          Telefone: this.state.telefone,
+          Logradouro: this.state.logradouro,
+          Numero: this.state.numero,
+          Cidade: this.state.cidade,
+          Estado: this.state.estado,
+          Complemento: this.state.complemento,
+          Cep: this.state.cep
         });
-      }.bind(this),
-      error: function(resposta) {
-        if (resposta.status === 400) {
-          PubSub.publishError(resposta.responseJSON);
-        }
-      },
-      beforeSend: function() {
-        PubSub.publish({});
+        
+          if ((response.data.sucesso == true)) {
+            const nav = this.props.navigation;
+            Toast.show({
+              text: 'Cadastrado com sucesso, entre com suas informações!',
+              buttonText: 'Okay',
+              type: "success",
+              duration: 2000
+            });
+            nav.navigate("SignIn");
+          } else {
+            Toast.show({
+              text: 'Por favor revise seu cadastro.',
+              type: "success"
+            });
+          }           
+      
+        
       }
-    });
+        catch(error){  
+          console.log('catchou');
+          console.log('contratante'.concat(this.state.contratante));
+        console.log('nome'.concat(this.state.nome));
+        console.log('senha'.concat(this.state.senha));
+        console.log('email'.concat(this.state.email));
+        console.log('cpf'.concat(this.state.cpf));
+        console.log(format(this.state.dataNascimento, 'YYYY-MM-DD')),`dataNascimento`;
+        console.log('telefone'.concat(this.state.telefone));
+        console.log('logradouro'.concat(this.state.logradouro));
+        console.log('numero'.concat(this.state.numero));
+        console.log('cidade'.concat(this.state.cidade));
+        console.log('estado'.concat(this.state.estado));
+        console.log('complemento'.concat(this.state.complemento));
+        console.log('cep'.concat(this.state.cep));
+        console.log(error);
+      };
+  };
+
+    setNome = nome => {this.setState({nome})}
+    setSenha = senha => {this.setState({senha})}
+    setEmail = email => {this.setState({email})}
+    setCpf = cpf => {this.setState({cpf})}
+    setDataNascimento = dataNascimento => {this.setState({dataNascimento})}
+    setLogradouro = logradouro => {this.setState({logradouro})}
+    setCidade = cidade => {this.setState({cidade})}
+    setEstado = estado => {this.setState({estado})}
+    setCep = cep => {this.setState({cep})}
+    setNumero = numero => {this.setState({numero})}
+    setComplemento = complemento => {this.setState({complemento})}
+    setTelefone = telefone => {this.setState({telefone})}
+
+  onNextStep = async () => {
+    this.props.onNext && (await this.props.onNext());
+
+    // Return out of method before moving to next step if errors exist.
+    if (this.props.errors) {
+      return;
+    }
+
+    onSubmit = () => {
+      this.props.onSubmit && this.props.onSubmit();
+    };
+  
+    
+
+  onNextFirst = () => {
+    if (buttonContratanteDisabled  || buttonDiaristaDisabled ){
+      Alert.alert('Selecione uma das opções');
+      Toast.show({
+        text: 'Selecione uma das opções!',
+        buttonText: 'Okay',
+        type: "danger",
+        duration: 200
+      });
+    }
+    }
   }
 
-  setNome(event) {
-    this.setState({ nome: event.target.value });
-  }
-  setSenha(event) {
-    this.setState({ senha: event.target.value });
-  }
-  setEmail(event) {
-    this.setState({ email: event.target.value });
-  }
-  setCpf(event) {
-    this.setState({ cpf: event.target.value });
-  }
-  setDataNascimento(event) {
-    this.setState({ dataNascimento: event.target.value });
-  }
-  setTelefone(event) {
-    this.setState({ telefone: event.target.value });
-  }
-  setLogradouro(event) {
-    this.setState({ logradouro: event.target.value });
-  }
-  setNumero(event) {
-    this.setState({ numero: event.target.value });
-  }
-  setCidade(event) {
-    this.setState({ cidade: event.target.value });
-  }
-  setEstado(event) {
-    this.setState({ estado: event.target.value });
-  }
-  setComplemento(event) {
-    this.setState({ complemento: event.target.value });
-  }
-  setCep(event) {
-    this.setState({ cep: event.target.value });
+  setContratante = () => {
+    this.state.contratante = true
+    this.setState({buttonContratanteDisabled : true,
+                   buttonDiaristaDisabled : false })
+
+  } 
+   setDiarista = () => {
+    this.state.contratante = false
+    this.setState({buttonDiaristaDisabled : true, 
+                    buttonContratanteDisabled : false})
   }
 
   render() {
@@ -169,24 +183,24 @@ class FormCustomer extends Component {
       <ProgressSteps>
         <ProgressStep
           previousBtnText="Voltar"
+          
           nextBtnStyle={style.button}
           nextBtnTextStyle={style.buttonText}
           nextBtnText="Próximo"
           label="Finalidade"
         >
-          <TouchableOpacity style={style.mainButton}>
-            <Text style={style.mainButtonText}>
+        <View style={style.buttonContent}>
+          <Button style={style.mainButton} onPress={this.setContratante} disabled={this.state.buttonContratanteDisabled} >
+            <Text style={style.mainButtonText} >
               Eu gostaria de contratar serviços!
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={style.mainButton}>
-            <Text style={style.mainButtonText}>
+          </Button>
+          <Button style={style.mainButton} onPress={this.setDiarista} disabled={this.state.buttonDiaristaDisabled} >
+            <Text style={style.mainButtonText} >
               Eu gostaria de oferecer serviços!
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={style.mainButton}>
-            <Text style={style.mainButtonText}>Eu gostaria de ambos!</Text>
-          </TouchableOpacity>
+          </Button>
+          </View>
         </ProgressStep>
         <ProgressStep
           previousBtnText="Voltar"
@@ -203,9 +217,9 @@ class FormCustomer extends Component {
                 <Label style={style.label}>Nome</Label>
                 <Input
                   style={style.input}
+                  value = {this.state.nome}
                   underline={false}
-                  value={this.state.nome}
-                  onChange={this.setNome}
+                  onChangeText={this.setNome}
                 />
               </Item>
 
@@ -213,8 +227,8 @@ class FormCustomer extends Component {
                 <Label style={style.label}>Email</Label>
                 <Input
                   style={style.input}
-                  value={this.state.email}
-                  onChange={this.setEmail}
+                  value = {this.state.email}
+                  onChangeText={this.setEmail}
                 />
               </Item>
               <Item style={style.item}>
@@ -223,23 +237,23 @@ class FormCustomer extends Component {
                   defaultDate={new Date(1980, 1, 1)}
                   minimumDate={new Date(1920, 1, 1)}
                   maximumDate={new Date(2001, 12, 31)}
+                  format="YYYY-MM-DD"
                   timeZoneOffsetInMinutes={undefined}
-                  modalTransparent={false}
+                  modalTransparent={true}
                   animationType={"fade"}
                   androidMode={"default"}
                   placeHolderText="Selecione a data"
-                  textStyle={{ color: "green" }}
+                  textStyle={{ color: "#8759ff" }}
                   placeHolderTextStyle={{ color: "#d3d3d3" }}
-                  onDateChange={this.setDate}
-                  disabled={false}
+                  onDateChange={this.setDataNascimento}
                 />
               </Item>
               <Item style={style.item}>
                 <Label style={style.label}>Telefone</Label>
                 <Input
                   style={style.input}
-                  value={this.state.telefone}
-                  onChange={this.setTelefone}
+                  value = {this.state.telefone}
+                  onChangeText={this.setTelefone}
                   data-mask="(00) 0000-0000"
                 />
               </Item>
@@ -247,16 +261,16 @@ class FormCustomer extends Component {
                 <Label style={style.label}>CPF</Label>
                 <Input
                   style={style.input}
-                  value={this.state.cpf}
-                  onChange={this.setCpf}
+                  value = {this.state.cpf}
+                  onChangeText={this.setCpf}
                 />
               </Item>
-              <Item style={[style.item]}>
+              <Item style={style.item}>
                 <Label style={style.label}>Senha</Label>
                 <Input
                   style={style.input}
-                  value={this.state.senha}
-                  onChange={this.setSenha}
+                  value = {this.state.senha}
+                  onChangeText={this.setSenha}
                 />
               </Item>
             </Form>
@@ -266,14 +280,7 @@ class FormCustomer extends Component {
           previousBtnText="Voltar"
           submitBtnText="Finalizar!"
           label="Endereço"
-          onSubmit={() =>
-            Toast.show({
-              text: "Cadastro realizado com sucesso!",
-              buttonText: "Okay",
-              type: "success"
-            },
-            this.props.navigation.navigate("SignIn")
-            )
+          onSubmit={this.handleSubmit
           }
           nextBtnStyle={style.button}
           nextBtnTextStyle={style.buttonText}
@@ -284,47 +291,53 @@ class FormCustomer extends Component {
             <Form
               style={style.form}
               underline="false"
-              onSubmit={this.enviaForm}
-              method="post"
             >
+            <Item style={style.item}>
+                <Label style={style.label}>Estado</Label>
+                <Input
+                  style={style.input}
+                  value = {this.state.estado}
+                  onChangeText={this.setEstado}
+                />
+              </Item>
               <Item style={style.item}>
                 <Label style={style.label}>Cidade</Label>
                 <Input
                   style={style.input}
-                  value={this.state.cidade}
-                  onChange={this.setCidade}
-                />
-              </Item>
-              <Item style={style.item}>
-                <Label style={style.label}>Estado</Label>
-                <Input
-                  style={style.input}
-                  value={this.state.estado}
-                  onChange={this.setEstado}
+                  value = {this.state.cidade}
+                  onChangeText={this.setCidade}
                 />
               </Item>
               <Item style={style.item}>
                 <Label style={style.label}>CEP</Label>
                 <Input
                   style={style.input}
-                  value={this.state.cep}
-                  onChange={this.setCep}
+                  value = {this.state.cep}
+                  onChangeText={this.setCep}
                 />
               </Item>
               <Item style={style.item}>
                 <Label style={style.label}>Endereco</Label>
                 <Input
                   style={style.input}
-                  value={this.state.endereco}
-                  onChange={this.setEndereco}
+                  value = {this.state.logradouro}
+                  onChangeText={this.setLogradouro}
                 />
               </Item>
               <Item style={style.item}>
-                <Label style={style.label}>Logradouro / Complemento</Label>
+                <Label style={style.label}>Número</Label>
                 <Input
                   style={style.input}
-                  value={this.state.logradouro}
-                  onChange={this.setLogradouro}
+                  value = {this.state.numero}
+                  onChangeText={this.setNumero}
+                />
+              </Item>
+              <Item style={style.item}>
+                <Label style={style.label}>Complemento</Label>
+                <Input
+                  style={style.input}
+                  value = {this.state.complemento}
+                  onChangeText={this.setComplemento}
                 />
               </Item>
 
@@ -362,7 +375,6 @@ const style = StyleSheet.create({
     marginLeft: 55,
     marginRight: 55
   },
-
   button: {
     borderColor: "#000",
     backgroundColor: "#8C72E1",
@@ -375,6 +387,11 @@ const style = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold"
   },
+  buttonContent:{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   mainButton: {
     height: 42,
     borderRadius: 9,
@@ -382,10 +399,9 @@ const style = StyleSheet.create({
     borderColor: "#000",
     backgroundColor: "#8C72E1",
     justifyContent: "center",
-    alignItems: "center",
+    alignSelf:"center",
     marginTop: 12,
-    marginLeft: 40,
-    marginRight: 40
+    flex: 1,
   },
   mainButtonText: {
     fontSize: 15,

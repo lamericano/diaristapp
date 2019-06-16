@@ -17,7 +17,7 @@ export default class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = { email: "", senha: "", error: "", dados: "" };
-    console.disableYellowBox = true;
+     console.disableYellowBox = true; 
   }
   
    static navigationOptions = {
@@ -48,8 +48,8 @@ export default class SignIn extends Component {
         >
           <ButtonText>Entrar</ButtonText>
         </Button>
-        <SignUpLink onPress={() => {this.handleSignUpPress(); }}>
-          <SignUpLinkText>
+        <SignUpLink >
+          <SignUpLinkText onPress={() => {this.handleSignUpPress() }}>
             Não possuí uma conta ainda? Clique aqui!
           </SignUpLinkText>
         </SignUpLink>
@@ -87,23 +87,35 @@ export default class SignIn extends Component {
         
         );
           if ((response.data.sucesso == true)) {
-            Toast.show({
-              text: 'Olá '.concat(response.data.dados.contratante.nome,', seja bem-vindo!'),
-              buttonText: 'Fechar',
-              type: "success",
-              duration: 1500
-            })
+            console.log('aaaaaaa')
+            
             try{
               AsyncStorage.setItem('@diaristApp:Token', response.data.dados.token);
               console.log('Token armazenado com sucesso')
-              if (response.data.dados.diarista == null) {
+            if (response.data.dados.diarista == null) {
+              Toast.show({
+                text: 'Olá '.concat(response.data.dados.contratante.nome,', seja bem-vindo!'),
+                buttonText: 'Fechar',
+                type: "success",
+                duration: 1500
+              });
               AsyncStorage.setItem('@diaristApp:idContratante', response.data.dados.contratante.idContratante);
+              
+              nav.navigate("Main");
             }
             else {
-              AsyncStorage.setItem('@diaristApp:idDiarista', response.data.dados.diarista);
+              Toast.show({
+                text: 'Olá '.concat(response.data.dados.diarista.nome,', seja bem-vindo!'),
+                buttonText: 'Fechar',
+                type: "success",
+                duration: 1500
+              })
+              AsyncStorage.setItem('@diaristApp:Token', response.data.dados.token);
+              AsyncStorage.setItem('@diaristApp:idDiarista', response.data.dados.diarista.idDiarista);
+              nav.navigate("Main");
             }
               console.log('ids armazenadoz com sucesso')
-              nav.navigate("Main");
+              
             }
             catch(error){
               console.log('O token não foi armazenado corretamente')
@@ -115,9 +127,8 @@ export default class SignIn extends Component {
       
         
       }
-        catch {  
-          (err)=>{console.log('error');
-        }
+        catch(error) {  
+          console.log(error)
       };
     }
   };
