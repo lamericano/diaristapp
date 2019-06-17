@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import { Drawer, Header, Title, Left, Right, Icon, Body, Button, Accordion, Container, Content, Text } from "native-base";
 import SideBar from "../sideBar/SideBar";
-
+import SearchDiarist from './searchDiarist'
 export default class Home extends Component {
     closeDrawer() {
         this.drawer._root.close();
@@ -21,10 +21,10 @@ export default class Home extends Component {
               padding: 10,
               justifyContent: "space-between",
               alignItems: "center" ,
-              marginTop: 20,
+              marginTop: 10,
               backgroundColor: "#8759ff",
               borderTopLeftRadius: 12,
-              borderTopRightRadius: 12
+              borderBottomRightRadius: 12,
                }}>
             <Text style={{ fontWeight: "600", color: '#FFF' }}>
                 {" "}{item.title}
@@ -42,7 +42,8 @@ export default class Home extends Component {
               padding: 10,
               borderWidth: 0.11,
               fontStyle: "italic",
-              borderBottomLeftRadius: 12
+              borderBottomLeftRadius: 12,
+              borderBottomRightRadius: 12
             }}
           >
             {item.content}
@@ -52,7 +53,7 @@ export default class Home extends Component {
 
   render() {
     const dataArray = [
-      { title: "Serviços agendados", content: "Lorem ipsum dolor sit amet" }
+      { title: "Serviços confirmados", content: "Ainda não possuí serviços confirmados!" }
     ];
     return (
       <Drawer
@@ -77,18 +78,23 @@ export default class Home extends Component {
           </Body>
           <Right />
         </Header>
-        <Container>
-          <Content padder>
+        <Container >
+          <Content padder >
             <Accordion dataArray={dataArray}
             animation={true}
-            expanded={0}
+            expanded={false}
             renderHeader={this._renderHeader}
             renderContent={this._renderContent} 
-            
             style={styles.accord}
             />
+            
           </Content>
+          <View style={styles.search}>
+          <SearchDiarist />
+          </View>
+          
       </Container>
+      
       </Drawer>
       
 
@@ -102,5 +108,10 @@ const styles = StyleSheet.create({
   },
   accord:{
     borderWidth: 0
-  }
+  },
+  search:{
+    flex:1,
+    marginTop: -400
+  },
+  
 });

@@ -99,7 +99,7 @@ export default class SignIn extends Component {
                 type: "success",
                 duration: 1500
               });
-              AsyncStorage.setItem('@diaristApp:idContratante', response.data.dados.contratante.idContratante);
+              AsyncStorage.setItem('@diaristApp:idContratante', response.data.dados.contratante.idContratante.toString());
               
               nav.navigate("Main");
             }

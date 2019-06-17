@@ -245,6 +245,7 @@ class FormCustomer extends Component {
                   placeHolderText="Selecione a data"
                   textStyle={{ color: "#8759ff" }}
                   placeHolderTextStyle={{ color: "#d3d3d3" }}
+                  value={this.state.dataNascimento}
                   onDateChange={this.setDataNascimento}
                 />
               </Item>
