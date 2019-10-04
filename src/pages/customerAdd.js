@@ -70,7 +70,7 @@ class FormCustomer extends Component {
   }
 
   handleSubmit = async () => {
-    
+    const nav = this.props.navigation;
       try { 
         const response = await api.post("/cadastro", 
         {
@@ -90,7 +90,7 @@ class FormCustomer extends Component {
         });
         
           if ((response.data.sucesso == true)) {
-            const nav = this.props.navigation;
+            
             Toast.show({
               text: 'Cadastrado com sucesso, entre com suas informações!',
               buttonText: 'Okay',
@@ -103,6 +103,7 @@ class FormCustomer extends Component {
               text: 'Por favor revise seu cadastro.',
               type: "success"
             });
+            nav.navigate("SignIn");
           }           
       
         

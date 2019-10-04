@@ -3,6 +3,8 @@ import { StyleSheet, View } from "react-native";
 import { Drawer, Header, Title, Left, Right, Icon, Body, Button, Accordion, Container, Content, Text } from "native-base";
 import SideBar from "../sideBar/SideBar";
 import SearchDiarist from './searchDiarist'
+import Services from './services'
+import { underline } from "ansi-colors";
 export default class Home extends Component {
     closeDrawer() {
         this.drawer._root.close();
@@ -29,9 +31,7 @@ export default class Home extends Component {
             <Text style={{ fontWeight: "600", color: '#FFF' }}>
                 {" "}{item.title}
               </Text>
-              {expanded
-                ? <Icon style={{ fontSize: 20, color: '#FFF' }} name="remove" />
-                : <Icon style={{ fontSize: 20, color: '#FFF' }} name="add" />}
+              
             </View>
           );
       }
@@ -89,7 +89,10 @@ export default class Home extends Component {
             />
             
           </Content>
+          
           <View style={styles.search}>
+          <Services/>
+          <Text style={styles.title}>Diaristas mais próximos</Text>
           <SearchDiarist />
           </View>
           
@@ -111,7 +114,16 @@ const styles = StyleSheet.create({
   },
   search:{
     flex:1,
-    marginTop: -400
+    marginTop: -636
   },
-  
+  title:{
+    fontSize: 20,
+    color: '#8759ff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: -20,
+    marginBottom: 5,
+    fontWeight: 'bold'
+  }
 });

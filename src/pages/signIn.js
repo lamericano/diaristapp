@@ -87,8 +87,6 @@ export default class SignIn extends Component {
         
         );
           if ((response.data.sucesso == true)) {
-            console.log('aaaaaaa')
-            
             try{
               AsyncStorage.setItem('@diaristApp:Token', response.data.dados.token);
               console.log('Token armazenado com sucesso')
@@ -100,8 +98,7 @@ export default class SignIn extends Component {
                 duration: 1500
               });
               AsyncStorage.setItem('@diaristApp:idContratante', response.data.dados.contratante.idContratante.toString());
-              
-              nav.navigate("Main");
+              nav.navigate("Home");
             }
             else {
               Toast.show({

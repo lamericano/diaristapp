@@ -4,9 +4,9 @@ import {
   StyleSheet,
   View,
   FlatList,
-  TouchableOpacity
+  AsyncStorage
 } from "react-native";
-import axios from 'axios';
+import api from "../services/api";
 import { Container, Header, Content, Button, Text } from "native-base";
 
 export default class Services extends Component {
@@ -15,33 +15,62 @@ export default class Services extends Component {
     headerTintColor: "black"
   };
 
-  state = {
-    docs: []
-  };
 
-  componentDidMount() {
-    this.loadServices();
+  constructor(props) {
+    super(props);
+    this.state = {
+      docs: [],
+      token: '',
+      idContratante: '',
+      loading: false,
+      contentLoaded:false,
+    };
+    animating = this.state.loading
   }
-  
+
+  async componentDidMount(){
+    this.retrieveData();
+  }
+
+  retrieveData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('@diaristApp:Token');
+      const idContratante = await AsyncStorage.getItem('@diaristApp:idContratante');
+      this.state.idContratante = idContratante
+      if (token !== null) {
+        this.state.token = token;
+        this.state.idContratante = idContratante;
+        
+        this.loadServices();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }; 
+
   loadServices = async () => {
-    const response = await axios.get("https://rocketseat-node.herokuapp.com/api/products");
-    const { docs } = response.data;
-    this.setState({ docs });
-    console.log(docs)
+    this.setState({loading:false});
+    const AuthStr = 'Bearer '.concat(this.state.token); 
+    const response = await api.get('/Servico/ServicosAgendados?idContratante='.concat(this.state.idContratante), 
+                                        { headers: { Authorization: AuthStr }});
+    console.log('response services', response)
+    console.log('sucesso:', response.data.sucesso)
+    this.setState({
+      loading:false,
+      docs:response.data.dados,
+      contentLoaded:true
+    })
+    if (response.data.sucesso == true){
+    this.setState({docs : response.data.dados});}
+    console.log('docs', docs)
+    
   };
 
   renderItem = ({ item }) => (
     <View style={styles.productContainer}>
-      <Text style={styles.productTitle}>{item.title}</Text>
-      <Text style={styles.productDescription}>{item.description}</Text>
-      <TouchableOpacity
-        style={styles.productButton}
-        onPress={() => {
-          this.props.navigation.navigate("Services");
-        }}
-      >
-        <Text style={styles.productButtonText}>Agendar agora!</Text>
-      </TouchableOpacity>
+      <Text style={styles.productTitle}>Giuliana Pontes</Text>
+      <Text style={styles.productDescription}>Data do serviço: {item.dataServico}</Text>
+      <Text style={styles.productDescription}>R${item.preco}</Text>
     </View>
   );
 
@@ -51,7 +80,7 @@ export default class Services extends Component {
         <FlatList
           contentContainerStyle={styles.list}
           data={this.state.docs}
-          keyExtractor={item => item._id}
+          keyExtractor={item => item.id}
           renderItem={this.renderItem}
         />
       </View>

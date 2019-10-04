@@ -65,12 +65,8 @@ export default class SearchDiarist extends Component {
   };
 
   handleScheduleDate = async () => {
-    console.log(this.state.idContratante);
-    console.log(this.state.idDiarista);
-    console.log(format(this.state.dataServico, 'DD-MM-YYYY'))
-    const nav = this.props.navigation;
-    
       try { 
+        const nav = this.props.navigation;
         const AuthStr = 'Bearer '.concat(this.state.token); 
         const response = await api.post("/Servico/Agendar", 
         {
@@ -156,7 +152,7 @@ export default class SearchDiarist extends Component {
               <View style={{justifyContent: 'center',
                             alignItems: 'center',
                             alignSelf: 'center',
-                            marginTop: 25}}>
+                            marginTop: 60}}>
               <DatePicker
                   minimumDate={new Date(2019, 6, 17)}
                   maximumDate={new Date(2023, 12, 31)}
@@ -175,11 +171,9 @@ export default class SearchDiarist extends Component {
                   style={styles.ModalButton}
                   onPress={() => {
                     this.handleScheduleDate();
-                      
-          }}
-      >
-        <Text style={styles.ModalButtonText}>Agendar</Text>
-      </TouchableOpacity>   
+                }}>
+                <Text style={styles.ModalButtonText}>Agendar</Text>
+              </TouchableOpacity>   
                 </View>
           </View>
         </Modal>
@@ -303,11 +297,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginTop: 35
+    marginTop: 65
   },
   ModalButtonText: {
     fontSize: 16,
-    color: '#8759ff'
+    color: '#8759ff',
+    fontWeight: 'bold'
   },
   ModalHeader:{
     justifyContent: 'space-between',
@@ -316,7 +311,7 @@ const styles = StyleSheet.create({
 
   },
   ModalCloseButton: {
-    height: 32,
+    height: 38,
     width: 80,
     borderRadius: 5,
     backgroundColor: '#FFF',
