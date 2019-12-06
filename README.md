@@ -1,5 +1,5 @@
 # diaristapp
-to build the application it's required:<br/>
+To build the application it's required some modules:<br/>
 <br/>
 npm install -g react-native-cli<br/>
 yarn add react-navigation<br/>
